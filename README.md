@@ -1,29 +1,29 @@
-# Clase NoSQL — Clean Architecture con WebFlux
+# Clase NoSQL — Clean Architecture imperativa
 
-Proyecto base de la actividad para generar una aplicación Java con Clean Architecture y Spring WebFlux usando el plugin de Bancolombia.
+Proyecto base de la actividad, generado con el plugin Clean Architecture de Bancolombia. Usa Java 21, Spring Boot y Spring MVC (REST imperativo); no utiliza Spring WebFlux.
 
 ## Requisitos
 
 - Java JDK 21 o posterior.
-- Gradle 9.2.1 o posterior. El proyecto incluye Gradle Wrapper 9.8.2, así que no necesitas instalar Gradle globalmente.
+- Gradle 9.2.1 o posterior. El proyecto incluye Gradle Wrapper 9.8.2, por lo que puedes ejecutar sus tareas sin instalar Gradle globalmente.
 
-## Ejecutar el proyecto
+## Ejecutar la aplicación
 
-Abre PowerShell en la carpeta del repositorio y ejecuta:
+En PowerShell, desde la carpeta del repositorio, inicia la aplicación con:
 
 ```powershell
 .\gradlew.bat bootRun
 ```
 
-Cuando la aplicación esté iniciada, consulta el endpoint:
+Prueba el endpoint GET en:
 
 ```text
 http://localhost:8080/api/usecase/path
 ```
 
-La respuesta inicial es una cadena vacía. Para cambiarla, edita la clase `Handler` en `infrastructure/entry-points/reactive-web/src/main/java/co/com/bancolombia/api/Handler.java`.
+El controlador `ApiRest` responde inicialmente `Value from use case v1`. Se encuentra en `infrastructure/entry-points/api-rest/src/main/java/co/com/bancolombia/api/ApiRest.java`.
 
-Para detener la aplicación, usa `Ctrl+C` en la terminal.
+Detén la aplicación con `Ctrl+C` en la terminal.
 
 ## Compilar y generar cobertura
 
@@ -31,13 +31,13 @@ Para detener la aplicación, usa `Ctrl+C` en la terminal.
 .\gradlew.bat build jacocoMergedReport
 ```
 
-## Estructura general
+## Estructura
 
-- `applications/app-service`: punto de entrada y configuración de Spring Boot.
-- `domain/model`: modelos del dominio.
+- `applications/app-service`: aplicación Spring Boot y configuración.
+- `domain/model`: modelos y contratos del dominio.
 - `domain/usecase`: casos de uso.
-- `infrastructure/entry-points/reactive-web`: rutas HTTP y handlers WebFlux.
-- `deployment`: archivos para despliegue.
+- `infrastructure/entry-points/api-rest`: API REST imperativa con Spring MVC.
+- `deployment`: configuración para despliegue.
 
 ## Comandos útiles
 

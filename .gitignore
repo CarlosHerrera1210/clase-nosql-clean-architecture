@@ -335,5 +335,5 @@ gradle-app.setting
 *.hprof
 build-cache
 
-# Local Gradle cache used in this environment
+# Local Gradle cache
 .gradle-home/
