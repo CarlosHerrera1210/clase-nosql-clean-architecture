@@ -1,47 +1,47 @@
-# Proyecto Base Implementando Clean Architecture
+# Clase NoSQL — Clean Architecture con WebFlux
 
-## Antes de Iniciar
+Proyecto base de la actividad para generar una aplicación Java con Clean Architecture y Spring WebFlux usando el plugin de Bancolombia.
 
-Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
+## Requisitos
 
-Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
+- Java JDK 21 o posterior.
+- Gradle 9.2.1 o posterior. El proyecto incluye Gradle Wrapper 9.8.2, así que no necesitas instalar Gradle globalmente.
 
-# Arquitectura
+## Ejecutar el proyecto
 
-![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)
+Abre PowerShell en la carpeta del repositorio y ejecuta:
 
-## Domain
+```powershell
+.\gradlew.bat bootRun
+```
 
-Es el módulo más interno de la arquitectura, pertenece a la capa del dominio y encapsula la lógica y reglas del negocio mediante modelos y entidades del dominio.
+Cuando la aplicación esté iniciada, consulta el endpoint:
 
-## Usecases
+```text
+http://localhost:8080/api/usecase/path
+```
 
-Este módulo gradle perteneciente a la capa del dominio, implementa los casos de uso del sistema, define lógica de aplicación y reacciona a las invocaciones desde el módulo de entry points, orquestando los flujos hacia el módulo de entities.
+La respuesta inicial es una cadena vacía. Para cambiarla, edita la clase `Handler` en `infrastructure/entry-points/reactive-web/src/main/java/co/com/bancolombia/api/Handler.java`.
 
-## Infrastructure
+Para detener la aplicación, usa `Ctrl+C` en la terminal.
 
-### Helpers
+## Compilar y generar cobertura
 
-En el apartado de helpers tendremos utilidades generales para los Driven Adapters y Entry Points.
+```powershell
+.\gradlew.bat build jacocoMergedReport
+```
 
-Estas utilidades no están arraigadas a objetos concretos, se realiza el uso de generics para modelar comportamientos
-genéricos de los diferentes objetos de persistencia que puedan existir, este tipo de implementaciones se realizan
-basadas en el patrón de diseño [Unit of Work y Repository](https://medium.com/@krzychukosobudzki/repository-design-pattern-bc490b256006)
+## Estructura general
 
-Estas clases no puede existir solas y debe heredarse su compartimiento en los **Driven Adapters**
+- `applications/app-service`: punto de entrada y configuración de Spring Boot.
+- `domain/model`: modelos del dominio.
+- `domain/usecase`: casos de uso.
+- `infrastructure/entry-points/reactive-web`: rutas HTTP y handlers WebFlux.
+- `deployment`: archivos para despliegue.
 
-### Driven Adapters
+## Comandos útiles
 
-Los driven adapter representan implementaciones externas a nuestro sistema, como lo son conexiones a servicios rest,
-soap, bases de datos, lectura de archivos planos, y en concreto cualquier origen y fuente de datos con la que debamos
-interactuar.
-
-### Entry Points
-
-Los entry points representan los puntos de entrada de la aplicación o el inicio de los flujos de negocio.
-
-## Application
-
-Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
-
-**Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+```powershell
+.\gradlew.bat tasks
+.\gradlew.bat build
+```
